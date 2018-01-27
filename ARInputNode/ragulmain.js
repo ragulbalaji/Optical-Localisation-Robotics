@@ -1,4 +1,5 @@
 var video, canvas, ctx, imageData, detector, posit;
+const socket = io()
 
 var modelSize = 90.0; //millimeters
 
@@ -98,13 +99,13 @@ function drawId(markers) {
 		geometry = updatePose("pose1", pose.bestError, pose.bestRotation, pose.bestTranslation);
 
 		ctx.fillStyle = "blue";
-		ctx.fillText(geometry.roll, marker.corners[0].x, marker.corners[0].y)
+		ctx.fillText(marker.id, marker.corners[0].x, marker.corners[0].y)
 		ctx.fillStyle = "green";
-		ctx.fillRect(center[0] - 15, center[1] - 15, 30, 30)
+		ctx.fillRect(center[0] - (50 * geometry.pitch) / 2, center[1] - (20 * geometry.yaw) / 2, (50 * geometry.pitch), (20 * geometry.yaw))
 		ctx.strokeStyle = "red";
 		ctx.beginPath()
 		ctx.moveTo(center[0], center[1])
-		ctx.lineTo(center[0] + ((50000/geometry.z) * Math.cos(geometry.roll)), center[1] + ((50000/geometry.z) * Math.sin(geometry.roll)))
+		ctx.lineTo(center[0] + ((50000 / geometry.z) * Math.cos(geometry.roll)), center[1] + ((50000 / geometry.z) * Math.sin(geometry.roll)))
 		ctx.stroke()
 
 		marker.center = center;
@@ -132,8 +133,7 @@ function updatePose(id, error, rotation, translation) {
 	};
 }
 
-//const socket = io()
-//socket.on('connect', () => {
-//	console.log('Connected to server.')
-//	socket.emit('send data', {}) // Dummy data
-//})
+socket.on('connect', () => {
+	console.log('Connected to server.')
+	socket.emit('send data', "HELLO") // Dummy data
+})
