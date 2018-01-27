@@ -21,9 +21,9 @@ const io = require('socket.io')(httpsServer)
 const path = require('path')
 
 const net = require('net')
-const s = new net.Socket()
-s.connect(8080, '192.168.43.177', () => {
-  s.write('HELLO FROM NODE')
+const nxt = new net.Socket()
+nxt.connect(8080, '192.168.43.177', () => {
+  nxt.write('HELLO FROM NODE')
 })
 
 var recentFrame;
