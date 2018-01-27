@@ -132,8 +132,8 @@ function updatePose(id, error, rotation, translation) {
 	};
 }
 
-const socket = io()
-socket.on('connect', () => {
-	console.log('Connected to server.')
-	socket.emit('send data', {}) // Dummy data
-})
+//const socket = io()
+//socket.on('connect', () => {
+//	console.log('Connected to server.')
+//	socket.emit('send data', {}) // Dummy data
+//})
