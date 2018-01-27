@@ -49,10 +49,6 @@ function mainLoop() {
 io.on('connection', socket => {
 	console.log(`${socket.id} connected.`)
 	socket.on('disconnect', () => console.log(`${socket.id} disconnected.`))
-	socket.on('send data', data => {
-		console.log(data)
-	})
-
 	socket.on('frame', data => {
 		for (var marker of data) {
 			marker.time = Date.now()
@@ -69,6 +65,7 @@ httpsServer.listen(8443, () => {
 
 const Leap = require('leapjs')
 const leapController = new Leap.Controller()
+let prevGrab;
 
 leapController.on('connect', () => {
 	console.log('Connected to Leap Motion.')
@@ -76,8 +73,14 @@ leapController.on('connect', () => {
 
 leapController.on('frame', frame => {
 	if (frame.hands.length > 0) {
-		const hand = frame.hands[0]
-		// TODO: Control the EV3
+		const hand = frame.hands[0]		
+		const nextGrab = hand.grabStrength > 0.8 ? "1" : "0"
+		if (nextGrab === prevGrab) {
+			return;
+		}
+		prevGrab = nextGrab
+		sendNXT("g," + nextGrab)
+		console.log(hand.grabStrength)
 	}
 })
 
