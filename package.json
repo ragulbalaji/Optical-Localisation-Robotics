@@ -1,0 +1,27 @@
+{
+  "name": "optical-localisation-robotics",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ARProcessNode/index.js",
+    "dev": "nodemon ARProcessNode/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ragulbalaji/Optical-Localisation-Robotics.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ragulbalaji/Optical-Localisation-Robotics/issues"
+  },
+  "homepage": "https://github.com/ragulbalaji/Optical-Localisation-Robotics#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "socket.io": "^2.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.14.11"
+  }
+}

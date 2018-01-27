@@ -126,4 +126,10 @@ window.onload = onLoad;
 
 function randHexColor(){
 	return '#'+Math.floor(Math.random()*16777215).toString(16);
-  }
+}
+
+const socket = io()
+socket.on('connect', () => {
+	console.log('Connected to server.')
+	socket.emit('send data', {}) // Dummy data
+})
