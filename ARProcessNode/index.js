@@ -20,6 +20,12 @@ const httpsServer = https.createServer(credentials, app);
 const io = require('socket.io')(httpsServer)
 const path = require('path')
 
+const net = require('net')
+const s = new net.Socket()
+s.connect(8080, '192.168.43.177', () => {
+  s.write('HELLO FROM NODE')
+})
+
 io.on('connection', socket => {
 	console.log(`${socket.id} connected.`)
 	socket.on('disconnect', () => console.log(`${socket.id} disconnected.`))
