@@ -34,13 +34,12 @@ function onLoad() {
 		posit = new POS.Posit(modelSize, canvas.width);
 
 		ctx.font = "20px Arial";
-		ctx.filter = "contrast(1) saturate(1)"
+		ctx.filter = "contrast(1.5) saturate(1)"
 		requestAnimationFrame(tick);
 	}
 }
 
 function tick() {
-	setTimeout(tick, 100);
 
 	if (video.readyState === video.HAVE_ENOUGH_DATA) {
 		snapshot();
@@ -48,8 +47,11 @@ function tick() {
 		var markers = detector.detect(imageData);
 		//drawCorners(markers);
 		drawId(markers);
-		console.log(markers)
+		//console.log(markers)
+		if (markers.length > 0) socket.emit('frame', markers)
 	}
+
+	setTimeout(tick, 1000 / 30);
 }
 
 function snapshot() {

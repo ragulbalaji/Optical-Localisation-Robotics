@@ -26,11 +26,22 @@ s.connect(8080, '192.168.43.177', () => {
   s.write('HELLO FROM NODE')
 })
 
+var recentFrame;
+var stats = {
+	last10seconds: 0
+}
+
 io.on('connection', socket => {
 	console.log(`${socket.id} connected.`)
 	socket.on('disconnect', () => console.log(`${socket.id} disconnected.`))
 	socket.on('send data', data => {
 		console.log(data)
+	})
+
+	socket.on('frame', data => {
+		console.log(data.length)
+		stats.last10seconds++;
+		recentFrame = data;
 	})
 })
 
@@ -39,3 +50,7 @@ app.use('/', express.static(path.resolve('ARInputNode')))
 httpsServer.listen(8443, () => {
 	console.log('Listening on port 8443')
 })
+
+function stats(){
+	
+}
