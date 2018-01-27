@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ARProcessNode/index.js",
-    "dev": "nodemon ARProcessNode/index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
   "homepage": "https://github.com/ragulbalaji/Optical-Localisation-Robotics#readme",
   "dependencies": {
     "express": "^4.16.2",
+    "leapjs": "^0.6.4",
     "socket.io": "^2.0.4"
   },
   "devDependencies": {

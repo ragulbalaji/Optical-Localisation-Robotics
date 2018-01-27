@@ -49,6 +49,22 @@ httpsServer.listen(8443, () => {
 	console.log('Listening on port 8443')
 })
 
+const Leap = require('leapjs')
+const leapController = new Leap.Controller()
+
+leapController.on('connect', () => {
+	console.log('Connected to Leap Motion.')
+})
+
+leapController.on('frame', frame => {
+	if (frame.hands.length > 0) {
+		const hand = frame.hands[0]
+		// TODO: Control the EV3
+	}
+})
+
+leapController.connect()
+
 setInterval(function () { //Stats Loop
 	for (var key of Object.keys(recentFrame)) {
 		var marker = recentFrame[key];
