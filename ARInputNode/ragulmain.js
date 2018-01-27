@@ -131,3 +131,9 @@ function updatePose(id, error, rotation, translation) {
 		yaw: yaw
 	};
 }
+
+const socket = io()
+socket.on('connect', () => {
+	console.log('Connected to server.')
+	socket.emit('send data', {}) // Dummy data
+})
