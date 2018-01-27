@@ -6,7 +6,7 @@ motor_right = ev3.LargeMotor('outA')
 motor_left = ev3.LargeMotor('outD')
 motor_grab = ev3.MediumMotor('outC')
 
-speed = motor_right.max_speed
+speed = 500 # Set default speed to half of the actual default (1050)
 
 def spin(deg):
     motor_right.run_to_rel_pos(position_sp=-deg, speed_sp=speed)

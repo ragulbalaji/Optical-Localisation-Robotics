@@ -47,19 +47,25 @@ function mainLoop() {
 }
 
 io.on('connection', socket => {
-	console.log(`${socket.id} connected.`)
-	socket.on('disconnect', () => console.log(`${socket.id} disconnected.`))
+	console.log(`${socket.id} connected.`);
+	socket.on('disconnect', () => console.log(`${socket.id} disconnected.`));
 	socket.on('frame', data => {
 		for (var marker of data) {
 			marker.time = Date.now()
 			recentFrame[marker.id] = marker
 		}
-	})
+	});
 	socket.on('grab', data => {
-		const grabVal = data.toString()
-		sendNXT('g,' + grabVal)
-		console.log(grabVal)
-	})
+		if (data === 1 || data === 0) {
+			sendNXT(`g,${data.toString()}`);
+		}
+	});
+	socket.on('move', data => {
+		sendNXT(`d,${data.toString()}`);
+	});
+	socket.on('spin', data => {
+		sendNXT(`s,${data.toString()}`);
+	});
 })
 
 app.use('/', express.static(path.resolve('../ARInputNode')))

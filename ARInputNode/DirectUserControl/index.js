@@ -18,7 +18,6 @@ Leap.loop({
     }
 
     socket.emit('grab', nextGrabVal);
-    console.log(nextGrabVal);
   }
 });
 
@@ -28,6 +27,25 @@ socket.on('connect', () => {
 
 function onLoad() {
   grabStrengthEl = document.getElementById('grab-strength');
+
+  document.addEventListener('keydown', event => {
+    switch (event.key) {
+      case 'w':
+        socket.emit('move', 180);
+        break;
+      case 'a':
+        socket.emit('spin', -180);
+        break;
+      case 's':
+        socket.emit('move', -180);
+        break;
+      case 'd':
+        socket.emit('spin', 180);
+        break;
+      default:
+        break;
+    }
+  });
 }
 
 window.onload = onLoad;
