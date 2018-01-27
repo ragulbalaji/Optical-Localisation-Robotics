@@ -137,5 +137,4 @@ function updatePose(id, error, rotation, translation) {
 
 socket.on('connect', () => {
 	console.log('Connected to server.')
-	socket.emit('send data', "HELLO") // Dummy data
 })

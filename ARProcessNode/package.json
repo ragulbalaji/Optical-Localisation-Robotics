@@ -19,7 +19,6 @@
   "homepage": "https://github.com/ragulbalaji/Optical-Localisation-Robotics#readme",
   "dependencies": {
     "express": "^4.16.2",
-    "leapjs": "^0.6.4",
     "socket.io": "^2.0.4"
   },
   "devDependencies": {

@@ -55,36 +55,18 @@ io.on('connection', socket => {
 			recentFrame[marker.id] = marker
 		}
 	})
+	socket.on('grab', data => {
+		const grabVal = data.toString()
+		sendNXT('g,' + grabVal)
+		console.log(grabVal)
+	})
 })
 
-app.use('/', express.static(path.resolve('ARInputNode')))
+app.use('/', express.static(path.resolve('../ARInputNode')))
 
 httpsServer.listen(8443, () => {
 	console.log('Listening on port 8443')
 })
-
-const Leap = require('leapjs')
-const leapController = new Leap.Controller()
-let prevGrab;
-
-leapController.on('connect', () => {
-	console.log('Connected to Leap Motion.')
-})
-
-leapController.on('frame', frame => {
-	if (frame.hands.length > 0) {
-		const hand = frame.hands[0]		
-		const nextGrab = hand.grabStrength > 0.8 ? "1" : "0"
-		if (nextGrab === prevGrab) {
-			return;
-		}
-		prevGrab = nextGrab
-		sendNXT("g," + nextGrab)
-		console.log(hand.grabStrength)
-	}
-})
-
-leapController.connect()
 
 setInterval(function () { //Stats Loop
 	for (var key of Object.keys(recentFrame)) {
