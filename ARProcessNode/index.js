@@ -21,15 +21,12 @@ const io = require('socket.io')(httpsServer)
 const path = require('path')
 
 const net = require('net')
-const nxt = new net.Socket()
-nxt.connect(8080, '192.168.43.177', () => {
-  nxt.write('HELLO FROM NODE')
-})
+const s = new net.Socket()
+//s.connect(8080, '192.168.43.177', () => {
+//  s.write('HELLO FROM NODE')
+//})
 
-var recentFrame;
-var stats = {
-	last10seconds: 0
-}
+let recentFrame = {};
 
 io.on('connection', socket => {
 	console.log(`${socket.id} connected.`)
@@ -39,9 +36,10 @@ io.on('connection', socket => {
 	})
 
 	socket.on('frame', data => {
-		console.log(data.length)
-		stats.last10seconds++;
-		recentFrame = data;
+		for (var marker of data) {
+			marker.time = Date.now()
+			recentFrame[marker.id] = marker
+		}
 	})
 })
 
@@ -51,6 +49,10 @@ httpsServer.listen(8443, () => {
 	console.log('Listening on port 8443')
 })
 
-function stats(){
-	
-}
+setInterval(function () { //Stats Loop
+	for (var key of Object.keys(recentFrame)) {
+		var marker = recentFrame[key];
+		if (marker.time < Date.now() - 10000) delete recentFrame[key];
+	}
+	console.log(Object.keys(recentFrame))
+}, 2000)

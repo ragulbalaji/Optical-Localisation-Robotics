@@ -34,7 +34,7 @@ function onLoad() {
 		posit = new POS.Posit(modelSize, canvas.width);
 
 		ctx.font = "20px Arial";
-		ctx.filter = "contrast(1.5) saturate(1)"
+		ctx.filter = "contrast(1) saturate(1)"
 		requestAnimationFrame(tick);
 	}
 }
