@@ -18,10 +18,10 @@ def drive(deg):
 
 def grab(shouldGrab):
     if shouldGrab:
-        speed = 1000
+        position = -1200
     else:
-        speed = -1000
-    motor_grab.run_timed(time_sp=1500, speed_sp=speed)
+        position = 0
+    motor_grab.run_to_abs_pos(position_sp=position)
 
 def power(amt):
     global speed
