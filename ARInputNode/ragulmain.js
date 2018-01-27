@@ -1,4 +1,6 @@
-var video, canvas, ctx, imageData, detector;
+var video, canvas, ctx, imageData, detector, posit;
+
+var modelSize = 90.0; //millimeters
 
 function onLoad() {
 	video = document.getElementById("video");
@@ -28,6 +30,7 @@ function onLoad() {
 		}, successCallback, errorCallback);
 
 		detector = new AR.Detector();
+		posit = new POS.Posit(modelSize, canvas.width);
 
 		ctx.font = "20px Arial";
 		ctx.filter = "contrast(1) saturate(1)"
@@ -89,41 +92,42 @@ function drawId(markers) {
 			center[0] += corner.x / 4;
 			center[1] += corner.y / 4;
 		}
-		rotation = Math.atan2((center[1] - marker.corners[0].y), (marker.corners[0].x - center[0]));
+
+		//rotation = Math.atan2((center[1] - marker.corners[0].y), (marker.corners[0].x - center[0]));
+		pose = posit.pose(marker.corners)
+		geometry = updatePose("pose1", pose.bestError, pose.bestRotation, pose.bestTranslation);
 
 		ctx.fillStyle = "blue";
-		ctx.fillText(marker.id, marker.corners[0].x, marker.corners[0].y)
+		ctx.fillText(geometry.roll, marker.corners[0].x, marker.corners[0].y)
 		ctx.fillStyle = "green";
 		ctx.fillRect(center[0] - 15, center[1] - 15, 30, 30)
 		ctx.strokeStyle = "red";
 		ctx.beginPath()
 		ctx.moveTo(center[0], center[1])
-		ctx.lineTo(center[0] + (50 * Math.cos(rotation)), center[1] - (50 * Math.sin(rotation)))
+		ctx.lineTo(center[0] + ((50000/geometry.z) * Math.cos(geometry.roll)), center[1] + ((50000/geometry.z) * Math.sin(geometry.roll)))
 		ctx.stroke()
 
 		marker.center = center;
-		marker.rotation = rotation;
+		marker.geometry = geometry;
 	}
-
-	/*for (i = 0; i !== markers.length; ++i) {
-		corners = markers[i].corners;
-
-		x = Infinity;
-		y = Infinity;
-
-		for (j = 0; j !== corners.length; ++j) {
-			corner = corners[j];
-
-			x = Math.min(x, corner.x);
-			y = Math.min(y, corner.y);
-		}
-
-		ctx.strokeText(markers[i].id, x, y)
-	}*/
 }
 
 window.onload = onLoad;
 
-function randHexColor(){
-	return '#'+Math.floor(Math.random()*16777215).toString(16);
-  }
+function randHexColor() {
+	return '#' + Math.floor(Math.random() * 16777215).toString(16);
+}
+
+function updatePose(id, error, rotation, translation) {
+	var yaw = -Math.atan2(rotation[0][2], rotation[2][2]);
+	var pitch = -Math.asin(-rotation[1][2]);
+	var roll = Math.atan2(rotation[1][0], rotation[1][1]);
+	return {
+		x: (translation[0] | 0),
+		y: (translation[1] | 0),
+		z: (translation[2] | 0),
+		roll: Math.PI - roll,
+		pitch: pitch,
+		yaw: yaw
+	};
+}
