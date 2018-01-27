@@ -6,3 +6,4 @@
 * d - move forward/backward [Range: 0+ degrees to move (int)]
 * s - spin left/right [Range:  0-360 degrees to spin (int)]
 * p - configure motor power [Range: 0-1050 (int)]
+* g - grab [Range: 0 to release, 1 to grab]

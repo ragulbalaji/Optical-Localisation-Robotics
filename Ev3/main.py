@@ -16,6 +16,13 @@ def drive(deg):
     motor_right.run_to_rel_pos(position_sp=deg, speed_sp=speed)
     motor_left.run_to_rel_pos(position_sp=deg, speed_sp=speed)
 
+def grab(shouldGrab):
+    if shouldGrab:
+        speed = 1000
+    else:
+        speed = -1000
+    motor_grab.run_timed(time_sp=1500, speed_sp=speed)
+
 def power(amt):
     global speed
     speed = amt
@@ -32,6 +39,9 @@ def process_data(data):
     elif cmds[0] == 'p':
         datum = int(cmds[1])
         power(datum)
+    elif cmds[0] == 'g':
+        datum = int(cmds[1])
+        grab(datum)
     else:
         print('Unrecognized data', data)
 
