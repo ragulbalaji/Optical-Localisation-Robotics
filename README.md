@@ -24,6 +24,10 @@ The god view is attained by having unique AR markers indicating landmarks in the
 
 ## How we built it
 
+* A website that tracks and detects objects on the play field, and calculates the geometry of the objects
+* A Node.js server that gathers the data calculated by the website, calculates the movement needed of the bots, and dispatches commands to the bots
+* An EV3 bot with Debian installed, running a Python socket server that listens for movement commands
+
 ## Challenges we ran into
 
 * The varying lighting conditions throughout the day affected our image processing.
