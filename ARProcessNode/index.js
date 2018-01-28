@@ -50,38 +50,41 @@ function mainLoop() {
 		//console.log((180 / Math.PI) * robotAngle, (180 / Math.PI) * angleToF25)
 		goal = Math.round(-5 * (robotAngle - angleToF25))
 		if (Math.abs(goal) > 1) sendNXT("s," + goal.toString())
-	} else if (isDefined(recentFrame[oID["Robot"]]) && isDefined(recentFrame[oID["F32"]])) {
-		robot = recentFrame[oID["Robot"]]
-		f32 = recentFrame[oID["F32"]]
-		robotAngle = parseFloat(robot.geometry.roll)
-		angleToF32 = (robot.center[0] < f32.center[0] ? 0 : Math.PI) + getAngle(robot.center[0], robot.center[1], f32.center[0], f32.center[1])
-		//console.log((180 / Math.PI) * robotAngle, (180 / Math.PI) * angleToF32, Math.abs(robotAngle - angleToF32))
-		if (Math.abs(robotAngle - angleToF32) > (3 / 180 * Math.PI)) {
-			goal = Math.round(-5 * (robotAngle - angleToF32))
-			if (Math.abs(goal) > 0) sendNXT("s," + goal.toString())
-		} else {
-			goal = Math.round(0.5 * distBetween(robot.center[0], robot.center[1], f32.center[0], f32.center[1]))
-			if (Math.abs(goal) > 110){
-				sendNXT("d," + goal.toString())
-			}else{
-				sendNXT("g,1")
-			}
-		}
 	} else if (isDefined(recentFrame[oID["Robot"]]) && isDefined(recentFrame[oID["F33"]])) {
 		robot = recentFrame[oID["Robot"]]
 		f33 = recentFrame[oID["F33"]]
 		robotAngle = parseFloat(robot.geometry.roll)
 		angleToF33 = (robot.center[0] < f33.center[0] ? 0 : Math.PI) + getAngle(robot.center[0], robot.center[1], f33.center[0], f33.center[1])
 		//console.log((180 / Math.PI) * robotAngle, (180 / Math.PI) * angleToF33, Math.abs(robotAngle - angleToF33))
-		if (Math.abs(robotAngle - angleToF33) > (3 / 180 * Math.PI)) {
+		if (Math.abs(robotAngle - angleToF33) > (2 / 180 * Math.PI)) {
 			goal = Math.round(-5 * (robotAngle - angleToF33))
 			if (Math.abs(goal) > 0) sendNXT("s," + goal.toString())
 		} else {
-			goal = Math.round(0.5 * distBetween(robot.center[0], robot.center[1], f33.center[0], f33.center[1]))
-			if (Math.abs(goal) > 120){
+			dist = distBetween(robot.center[0], robot.center[1], f33.center[0], f33.center[1])
+			goal = Math.round(0.1 * dist)
+			if (Math.abs(dist) > 300){
 				sendNXT("d," + goal.toString())
 			}else{
 				sendNXT("g,0")
+			}
+		}
+	} else if (isDefined(recentFrame[oID["Robot"]]) && isDefined(recentFrame[oID["F32"]])) {
+		robot = recentFrame[oID["Robot"]]
+		f32 = recentFrame[oID["F32"]]
+		robotAngle = parseFloat(robot.geometry.roll)
+		angleToF32 = (robot.center[0] < f32.center[0] ? 0 : Math.PI) + getAngle(robot.center[0], robot.center[1], f32.center[0], f32.center[1])
+		//console.log((180 / Math.PI) * robotAngle, (180 / Math.PI) * angleToF32, Math.abs(robotAngle - angleToF32))
+		if (Math.abs(robotAngle - angleToF32) > (2 / 180 * Math.PI)) {
+			goal = Math.round(-5 * (robotAngle - angleToF32))
+			if (Math.abs(goal) > 0) sendNXT("s," + goal.toString())
+		} else {
+			dist = distBetween(robot.center[0], robot.center[1], f32.center[0], f32.center[1])
+			goal = Math.round(0.1 * dist)
+			console.log(dist)
+			if (Math.abs(dist) > 260){
+				sendNXT("d," + goal.toString())
+			}else{
+				sendNXT("g,1")
 			}
 		}
 	}
@@ -118,7 +121,7 @@ httpsServer.listen(8443, () => {
 setInterval(function () { //Stats Loop
 	for (var key of Object.keys(recentFrame)) {
 		var marker = recentFrame[key];
-		if (marker.time < Date.now() - 200) delete recentFrame[key];
+		if (marker.time < Date.now() - (marker.id === oID["Robot"] ? 200 : 20000)) delete recentFrame[key];
 	}
 	console.log(Object.keys(recentFrame))
 }, 2000)
