@@ -110,6 +110,9 @@ io.on('connection', socket => {
 	socket.on('spin', data => {
 		sendNXT(`s,${data.toString()}`);
 	});
+	socket.on('clear frames', data => {
+		recentFrame = {};
+	})
 })
 
 app.use('/', express.static(path.resolve('../ARInputNode')))

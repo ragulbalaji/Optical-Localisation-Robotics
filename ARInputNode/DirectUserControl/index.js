@@ -48,6 +48,10 @@ function onLoad() {
         socket.emit('spin', 180);
         actionEl.innerHTML = '⬆️';
         break;
+      case 'c':
+        socket.emit('clear frames');
+        actionEl.innerHTML = '🗑️';
+        break;
       default:
         break;
     }
