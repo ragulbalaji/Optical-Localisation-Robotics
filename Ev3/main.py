@@ -21,7 +21,7 @@ def grab(shouldGrab):
         position = -1200
     else:
         position = 0
-    motor_grab.run_to_abs_pos(position_sp=position)
+    motor_grab.run_to_abs_pos(position_sp=position, speed_sp=1000)
 
 def power(amt):
     global speed

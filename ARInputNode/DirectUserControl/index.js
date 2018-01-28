@@ -1,7 +1,7 @@
 
 const socket = io();
 let prevGrabVal = 0;
-let grabStrengthEl;
+let actionEl;
 
 Leap.loop({
   enableGestures: true
@@ -13,8 +13,10 @@ Leap.loop({
     if (nextGrabVal === prevGrabVal) return;
     prevGrabVal = nextGrabVal;
 
-    if (grabStrengthEl !== undefined) {
-      grabStrengthEl.innerHTML = nextGrabVal;
+    if (actionEl !== undefined) {
+      actionEl.innerHTML = nextGrabVal ?
+          String.fromCodePoint('✊') :
+          String.fromCodePoint('✋');
     }
 
     socket.emit('grab', nextGrabVal);
@@ -26,21 +28,25 @@ socket.on('connect', () => {
 });
 
 function onLoad() {
-  grabStrengthEl = document.getElementById('grab-strength');
+  actionEl = document.getElementById('action-indicator');
 
   document.addEventListener('keydown', event => {
     switch (event.key) {
       case 'w':
         socket.emit('move', 180);
+        actionEl.innerHTML = '↙️';
         break;
       case 'a':
         socket.emit('spin', -180);
+        actionEl.innerHTML = '↘️';
         break;
       case 's':
         socket.emit('move', -180);
+        actionEl.innerHTML = '⬇️';
         break;
       case 'd':
         socket.emit('spin', 180);
+        actionEl.innerHTML = '⬆️';
         break;
       default:
         break;
