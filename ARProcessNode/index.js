@@ -24,13 +24,15 @@ const net = require('net')
 
 const oID = {
 	"Robot": "28",
-	"F24": "24",
-	"F25": "25"
+	"F24": "24", // FOLLOW ME
+	"F25": "25", // LOOK AT ME
+	"F32": "32", // GRAB ME
+	"F33": "33"  // COME TO ME LET GO
 }
 
 let recentFrame = {};
 
-setInterval(mainLoop, 100);
+setInterval(mainLoop, 200);
 
 function mainLoop() {
 	if (isDefined(recentFrame[oID["Robot"]]) && isDefined(recentFrame[oID["F24"]])) { //MIRROR ROLL OF F24
@@ -38,11 +40,50 @@ function mainLoop() {
 		f24Angle = parseFloat(recentFrame[oID["F24"]].geometry.roll)
 		goal = parseInt(-3 * (robotAngle - f24Angle));
 		if (Math.abs(goal) > 0) sendNXT("s," + goal.toString())
-	} else if (isDefined(recentFrame[oID["Robot"]]) && isDefined(recentFrame[oID["F25"]])) { //NO WORK
-		//robotAngle = parseFloat(recentFrame[oID["Robot"]].geometry.roll)
-		//goal = Math.round(3 * Math.sin(Date.now() / 500)) 
-		//console.log(goal);
-		//if (Math.abs(goal) > 0) sendNXT("s," + goal.toString())
+	} else if (isDefined(recentFrame[oID["Robot"]]) && isDefined(recentFrame[oID["F25"]])) { // LOOKAT POINT WORK ON CERTAIN QUADS
+		//YAMAETE KUDASAIIII
+		robot = recentFrame[oID["Robot"]]
+		f25 = recentFrame[oID["F25"]]
+		robotAngle = parseFloat(robot.geometry.roll)
+		//console.log(recentFrame[oID["Robot"]], recentFrame[oID["F25"]])
+		angleToF25 = (robot.center[0] < f25.center[0] ? 0 : Math.PI) + getAngle(robot.center[0], robot.center[1], f25.center[0], f25.center[1])
+		//console.log((180 / Math.PI) * robotAngle, (180 / Math.PI) * angleToF25)
+		goal = Math.round(-5 * (robotAngle - angleToF25))
+		if (Math.abs(goal) > 1) sendNXT("s," + goal.toString())
+	} else if (isDefined(recentFrame[oID["Robot"]]) && isDefined(recentFrame[oID["F32"]])) {
+		robot = recentFrame[oID["Robot"]]
+		f32 = recentFrame[oID["F32"]]
+		robotAngle = parseFloat(robot.geometry.roll)
+		angleToF32 = (robot.center[0] < f32.center[0] ? 0 : Math.PI) + getAngle(robot.center[0], robot.center[1], f32.center[0], f32.center[1])
+		//console.log((180 / Math.PI) * robotAngle, (180 / Math.PI) * angleToF32, Math.abs(robotAngle - angleToF32))
+		if (Math.abs(robotAngle - angleToF32) > (3 / 180 * Math.PI)) {
+			goal = Math.round(-5 * (robotAngle - angleToF32))
+			if (Math.abs(goal) > 0) sendNXT("s," + goal.toString())
+		} else {
+			goal = Math.round(0.5 * distBetween(robot.center[0], robot.center[1], f32.center[0], f32.center[1]))
+			if (Math.abs(goal) > 110){
+				sendNXT("d," + goal.toString())
+			}else{
+				sendNXT("g,1")
+			}
+		}
+	} else if (isDefined(recentFrame[oID["Robot"]]) && isDefined(recentFrame[oID["F33"]])) {
+		robot = recentFrame[oID["Robot"]]
+		f33 = recentFrame[oID["F33"]]
+		robotAngle = parseFloat(robot.geometry.roll)
+		angleToF33 = (robot.center[0] < f33.center[0] ? 0 : Math.PI) + getAngle(robot.center[0], robot.center[1], f33.center[0], f33.center[1])
+		//console.log((180 / Math.PI) * robotAngle, (180 / Math.PI) * angleToF33, Math.abs(robotAngle - angleToF33))
+		if (Math.abs(robotAngle - angleToF33) > (3 / 180 * Math.PI)) {
+			goal = Math.round(-5 * (robotAngle - angleToF33))
+			if (Math.abs(goal) > 0) sendNXT("s," + goal.toString())
+		} else {
+			goal = Math.round(0.5 * distBetween(robot.center[0], robot.center[1], f33.center[0], f33.center[1]))
+			if (Math.abs(goal) > 120){
+				sendNXT("d," + goal.toString())
+			}else{
+				sendNXT("g,0")
+			}
+		}
 	}
 }
 
@@ -77,7 +118,7 @@ httpsServer.listen(8443, () => {
 setInterval(function () { //Stats Loop
 	for (var key of Object.keys(recentFrame)) {
 		var marker = recentFrame[key];
-		if (marker.time < Date.now() - 100) delete recentFrame[key];
+		if (marker.time < Date.now() - 200) delete recentFrame[key];
 	}
 	console.log(Object.keys(recentFrame))
 }, 2000)
@@ -116,5 +157,10 @@ function isDefined(obj) {
 function getAngle(x1, y1, x2, y2) {
 	var dx = x1 - x2,
 		dy = y1 - y2;
-	return Math.atan2(dy, dx);
+	//console.log(dy, dx)
+	return Math.atan(dy / dx);
+};
+
+function distBetween(x1, y1, x2, y2) {
+	return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
 };

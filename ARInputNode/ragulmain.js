@@ -127,7 +127,7 @@ function updatePose(id, error, rotation, translation) {
 	var roll = Math.atan2(rotation[1][0], rotation[1][1]);
 	return {
 		x: (translation[0] | 0),
-		y: (translation[1] | 0),
+		y: canvas.height - (translation[1] | 0),
 		z: (translation[2] | 0),
 		roll: Math.PI - roll,
 		pitch: pitch,
