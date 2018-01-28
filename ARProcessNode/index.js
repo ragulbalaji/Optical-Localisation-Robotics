@@ -48,7 +48,7 @@ function mainLoop() {
 		//console.log(recentFrame[oID["Robot"]], recentFrame[oID["F25"]])
 		angleToF25 = (robot.center[0] < f25.center[0] ? 0 : Math.PI) + getAngle(robot.center[0], robot.center[1], f25.center[0], f25.center[1])
 		//console.log((180 / Math.PI) * robotAngle, (180 / Math.PI) * angleToF25)
-		goal = Math.round(-5 * (robotAngle - angleToF25))
+		goal = Math.round(-9 * (robotAngle - angleToF25))
 		if (Math.abs(goal) > 1) sendNXT("s," + goal.toString())
 	} else if (isDefined(recentFrame[oID["Robot"]]) && isDefined(recentFrame[oID["F33"]])) {
 		robot = recentFrame[oID["Robot"]]
@@ -57,11 +57,11 @@ function mainLoop() {
 		angleToF33 = (robot.center[0] < f33.center[0] ? 0 : Math.PI) + getAngle(robot.center[0], robot.center[1], f33.center[0], f33.center[1])
 		//console.log((180 / Math.PI) * robotAngle, (180 / Math.PI) * angleToF33, Math.abs(robotAngle - angleToF33))
 		if (Math.abs(robotAngle - angleToF33) > (2 / 180 * Math.PI)) {
-			goal = Math.round(-5 * (robotAngle - angleToF33))
+			goal = Math.round(-20 * (robotAngle - angleToF33))
 			if (Math.abs(goal) > 0) sendNXT("s," + goal.toString())
 		} else {
 			dist = distBetween(robot.center[0], robot.center[1], f33.center[0], f33.center[1])
-			goal = Math.round(0.1 * dist)
+			goal = Math.round(0.2 * dist)
 			if (Math.abs(dist) > 300){
 				sendNXT("d," + goal.toString())
 			}else{
