@@ -41,6 +41,7 @@ The god view is attained by having unique AR markers indicating landmarks in the
 ## What we learned
 
 ## What's next for us?
+To use multiple cameras placed at different locations around the playfield coupled with the use of Effective Point and Perspective Algorithm to compose a playfield. This allows the multiple cameras to track the robots and the elements on the playfield effectively.
 
 ## Built with
 
