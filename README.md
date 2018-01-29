@@ -5,6 +5,7 @@
 ![Robot Things](/Assets/Giphy.gif)
 
 ### FIND ME ON DEVPOST: https://devpost.com/software/bw-optical-localisation-plus-robotics/
+### WATCH ME ON YOUTUBE: https://www.youtube.com/watch?v=LlCsZ5G1Jkk
 
 ## Inspiration
 
