@@ -1,12 +1,10 @@
 # Optical-Localisation-Robotics
 
-![Processed image](https://challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_photos/000/592/257/datas/gallery.jpg)
+![Idea Map](/Assets/IdeaMap.png)
 
-*<p style="text-align: center">Processed image</p>*
+![Robot Things](/Assets/Giphy.gif)
 
-![Tracking the bot](https://scontent-arn2-1.xx.fbcdn.net/v/t34.0-0/p280x280/27294132_10215128890917897_2110733213_n.jpg?_nc_ad=z-m&_nc_cid=0&oh=fccbf223dc3e31c3d916321f3d624679&oe=5A6F6795)
-
-*<p style="text-align: center">Tracking the bot</p>*
+### FIND ME ON DEVPOST: https://devpost.com/software/bw-optical-localisation-plus-robotics/
 
 ## Inspiration
 
@@ -14,7 +12,7 @@ Tracking bots and other objects in a play field is complex and expensive, largel
 
 Each bot also runs its own set of calculations for movement, possibly resulting in collisions and conflicts between individual bots.
 
-On the other hand, a central server can track the entire play field via a camera and several AR markers, as well as control the movement of each individual bot, reducing cost, complexity and possibility for conflict.
+On the other hand, a central server with GOD VIEW can track the entire play field via a camera and several AR markers, as well as control the movement of each individual bot, reducing cost, complexity and possibility for conflict.
 
 ## What it does
 
@@ -36,15 +34,19 @@ The god view is attained by having unique AR markers indicating landmarks in the
 
 ## Accomplishments that we're proud of
 
+* Intended Vision of getting a simple robot to execute tasks in the play area
 * Achieving the core of our initial goal
 
 ## What we learned
+Intense Perseverance in the face of mind boggling math to do computer vision and engineering a distributed system with no single point of failure.
 
 ## What's next for us?
 To use multiple cameras placed at different locations around the playfield coupled with the use of Effective Point and Perspective Algorithm to compose a playfield. This allows the multiple cameras to track the robots and the elements on the playfield effectively.
 
 ## Built with
 
-* JavaScript with ArUco and OpenCV for video capture and marker detection
-* Python for hosting the EV3 server and handling locomotion
-* Node.js for hosting the middleman server between the browser and the bot
+* JavaScript, Python, Shiz tonna Math, weird hacks, data tricks, and some love and lack thereof of sleep
+
+![Processed image](https://challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_photos/000/592/257/datas/gallery.jpg)
+
+![Tracking the bot](https://scontent-arn2-1.xx.fbcdn.net/v/t34.0-0/p280x280/27294132_10215128890917897_2110733213_n.jpg?_nc_ad=z-m&_nc_cid=0&oh=fccbf223dc3e31c3d916321f3d624679&oe=5A6F6795)
